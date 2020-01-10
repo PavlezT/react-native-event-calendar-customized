@@ -47,7 +47,7 @@ export default class DayView extends React.PureComponent {
         x: 0,
         y: this.getRedLineOfset(this.props.offset),
         animated: true,
-      })}, 100)
+      })}, 300)
   }
 
   scrollToFirst() {
