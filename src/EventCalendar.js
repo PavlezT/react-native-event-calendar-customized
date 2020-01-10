@@ -21,7 +21,8 @@ export default class EventCalendar extends React.Component {
     const start = props.start ? props.start : 0;
     const end = props.end ? props.end : 24;
 
-    this.styles = styleConstructor(props.styles, (end - start) * 100);
+    this.offset = props.offset || 100;
+    this.styles = styleConstructor(props.styles, (end - start) * offset);
     this.state = {
       date: moment(this.props.initDate),
       index: this.props.size,
@@ -73,6 +74,9 @@ export default class EventCalendar extends React.Component {
       scrollToFirst = true,
       start = 0,
       end = 24,
+      showVerticalScrollIndicator = true,
+      showHalfHours = true
+
     } = this.props;
     const date = moment(initDate).add(index - this.props.size, 'days');
     return (
@@ -90,6 +94,9 @@ export default class EventCalendar extends React.Component {
         scrollToFirst={scrollToFirst}
         start={start}
         end={end}
+        offset={this.offset}
+        showHalfHours={showHalfHours}
+        showVerticalScrollIndicator={showVerticalScrollIndicator}
       />
     );
   }

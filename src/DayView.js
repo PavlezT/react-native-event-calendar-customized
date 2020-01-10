@@ -14,13 +14,13 @@ const TEXT_LINE_HEIGHT = 17;
 // const EVENT_PADDING_LEFT = 4
 
 function range(from, to) {
-  return Array.from(Array(to), (_, i) => from + i);
+  return Array.from(Array(to - from), (_, i) => from + i);
 }
 
 export default class DayView extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.calendarHeight = (props.end - props.start) * 100;
+    this.calendarHeight = (props.end - props.start) * props.offset;
     const width = props.width - LEFT_MARGIN;
     const packedEvents = populateEvents(props.events, width, props.start);
     let initPosition =
@@ -57,9 +57,7 @@ export default class DayView extends React.PureComponent {
   }
 
   _renderRedLine() {
-    const offset = 100;
-    const { format24h } = this.props;
-    const { width, styles } = this.props;
+    const { width, styles, offset } = this.props;
     const timeNowHour = moment().hour();
     const timeNowMin = moment().minutes();
     return (
@@ -95,7 +93,7 @@ export default class DayView extends React.PureComponent {
       } else {
         timeText = !format24h ? `${i - 12} PM` : i;
       }
-      const { width, styles } = this.props;
+      const { width, styles, showHalfHours } = this.props;
       return [
         <Text
           key={`timeLabel${i}`}
@@ -109,7 +107,7 @@ export default class DayView extends React.PureComponent {
             style={[styles.line, { top: offset * index, width: width - 20 }]}
           />
         ),
-        <View
+        showHalfHours && <View
           key={`lineHalf${i}`}
           style={[
             styles.line,
@@ -117,16 +115,6 @@ export default class DayView extends React.PureComponent {
           ]}
         />,
       ];
-    });
-  }
-
-  _renderTimeLabels() {
-    const { styles, start, end } = this.props;
-    const offset = this.calendarHeight / (end - start);
-    return range(start, end).map((item, i) => {
-      return (
-        <View key={`line${i}`} style={[styles.line, { top: offset * i }]} />
-      );
     });
   }
 
@@ -200,6 +188,7 @@ export default class DayView extends React.PureComponent {
     return (
       <ScrollView
         ref={ref => (this._scrollView = ref)}
+        showsVerticalScrollIndicator={this.props.showVerticalScrollIndicator}
         contentContainerStyle={[
           styles.contentStyle,
           { width: this.props.width },
