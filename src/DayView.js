@@ -33,15 +33,21 @@ export default class DayView extends React.PureComponent {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
+  static getDerivedStateFromProps(nextProps, state) {
     const width = nextProps.width - LEFT_MARGIN;
-    this.setState({
+    return {
       packedEvents: populateEvents(nextProps.events, width, nextProps.start),
-    });
+    }
   }
 
   componentDidMount() {
-    this.props.scrollToFirst && this.scrollToFirst();
+    this.props.scrollToFirst ? this.scrollToFirst() : 
+    setTimeout(() =>{
+      this._scrollView.scrollTo({
+        x: 0,
+        y: this.getRedLineOfset(this.props.offset),
+        animated: true,
+      })}, 100)
   }
 
   scrollToFirst() {
@@ -56,19 +62,24 @@ export default class DayView extends React.PureComponent {
     }, 1);
   }
 
-  _renderRedLine() {
-    const { width, styles, offset } = this.props;
+  getRedLineOfset(offset) {
     const timeNowHour = moment().hour();
     const timeNowMin = moment().minutes();
+    const redlineOffset = offset * (timeNowHour - this.props.start) + (offset * timeNowMin) / 60;
+
+    return redlineOffset;
+  }
+
+  _renderRedLine() {
+    const { width, styles, offset } = this.props;
+
     return (
       <View
         key={`timeNow`}
         style={[
           styles.lineNow,
           {
-            top:
-              offset * (timeNowHour - this.props.start) +
-              (offset * timeNowMin) / 60,
+            top: this.getRedLineOfset(offset),
             width: width - 20,
           },
         ]}
