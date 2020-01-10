@@ -22,7 +22,7 @@ export default class EventCalendar extends React.Component {
     const end = props.end ? props.end : 24;
 
     this.offset = props.offset || 100;
-    this.styles = styleConstructor(props.styles, (end - start) * offset);
+    this.styles = styleConstructor(props.styles, (end - start) * this.offset);
     this.state = {
       date: moment(this.props.initDate),
       index: this.props.size,
@@ -171,7 +171,9 @@ export default class EventCalendar extends React.Component {
 
     return (
       <View style={[this.styles.container, { width }]}>
-        <View style={this.styles.header}>
+        {this.props.renderDateHeader ? 
+        this.props.renderDateHeader()
+        :<View style={this.styles.header}>
           <TouchableOpacity
             style={this.styles.arrowButton}
             onPress={this._previous}
@@ -187,7 +189,7 @@ export default class EventCalendar extends React.Component {
           >
             {rightIcon}
           </TouchableOpacity>
-        </View>
+        </View>}
         <VirtualizedList
           ref="calendar"
           windowSize={2}
