@@ -40,7 +40,7 @@ function expand(ev, column, columns) {
   return colSpan;
 }
 
-function pack(columns, width, calculatedEvents, dayStart) {
+function pack(columns, width, calculatedEvents, dayStart, offset) {
   var colLength = columns.length;
 
   for (var i = 0; i < colLength; i++) {
@@ -50,12 +50,12 @@ function pack(columns, width, calculatedEvents, dayStart) {
       var L = (i / colLength) * width;
       var W = (width * colSpan) / colLength - 10;
 
-      calculatedEvents.push(buildEvent(col[j], L, W, dayStart));
+      calculatedEvents.push(buildEvent(col[j], L, W, dayStart, offset));
     }
   }
 }
 
-function populateEvents(events, screenWidth, dayStart) {
+function populateEvents(events, screenWidth, dayStart, offset) {
   let lastEnd;
   let columns;
   let self = this;
@@ -76,7 +76,7 @@ function populateEvents(events, screenWidth, dayStart) {
 
   events.forEach(function(ev, index) {
     if (lastEnd !== null && ev.start >= lastEnd) {
-      pack(columns, screenWidth, calculatedEvents, dayStart);
+      pack(columns, screenWidth, calculatedEvents, dayStart, offset);
       columns = [];
       lastEnd = null;
     }
@@ -101,7 +101,7 @@ function populateEvents(events, screenWidth, dayStart) {
   });
 
   if (columns.length > 0) {
-    pack(columns, screenWidth, calculatedEvents, dayStart);
+    pack(columns, screenWidth, calculatedEvents, dayStart, offset);
   }
   return calculatedEvents;
 }
