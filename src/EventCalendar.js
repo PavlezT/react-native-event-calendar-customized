@@ -101,7 +101,7 @@ export default class EventCalendar extends React.Component {
     );
   }
 
-  _goToPage(index) {
+  _goToPage(index, animated = true) {
     if (index <= 0 || index >= this.props.size * 2) {
       return;
     }
@@ -109,7 +109,7 @@ export default class EventCalendar extends React.Component {
       index - this.props.size,
       'days'
     );
-    this.refs.calendar.scrollToIndex({ index, animated: false });
+    this.refs.calendar.scrollToIndex({ index, animated });
     this.setState({ index, date });
   }
 
