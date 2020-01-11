@@ -43,11 +43,13 @@ export default class DayView extends React.PureComponent {
   componentDidMount() {
     this.props.scrollToFirst ? this.scrollToFirst() : 
     setTimeout(() =>{
+      if (this.state && this._scrollView) {
       this._scrollView.scrollTo({
         x: 0,
         y: this.getRedLineOfset(this.props.offset),
         animated: true,
-      })}, 300)
+      })}
+    }, 300)
   }
 
   scrollToFirst() {
