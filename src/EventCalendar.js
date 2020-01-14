@@ -206,12 +206,15 @@ export default class EventCalendar extends React.Component {
           style={{ width: width }}
           onMomentumScrollEnd={event => {
             const index = parseInt(event.nativeEvent.contentOffset.x / width);
+            if (index == this.state.index) {
+              return;
+            }
             const date = moment(this.props.initDate).add(
               index - this.props.size,
               'days'
             );
             if (this.props.dateChanged) {
-              this.props.dateChanged(date.format('YYYY-MM-DD'));
+              this.props.dateChanged(index);
             }
             this.setState({ index, date });
           }}
