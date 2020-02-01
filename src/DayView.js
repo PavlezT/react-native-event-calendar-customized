@@ -131,6 +131,41 @@ export default class DayView extends React.PureComponent {
     });
   }
 
+  renderNewEventSpace() {
+    const { start, end, width, styles } = this.props;
+    const offset = this.calendarHeight / (end - start);
+
+    return range(start, end + 1).map((i, index) => {
+      return [
+        <Text
+          key={`newEventLineLabel${i}`}
+          style={[styles.timeLabel, { top: offset * index + (offset/2) - 6, left: 40, color: 'white' }]}
+        >
+          +
+        </Text>,
+        i === start ? null : (
+          <TouchableOpacity
+            activeOpacity={0.5}
+            onPress={() => {
+              const temp = new Date(this.props.date);
+              temp.setHours(index+ start);
+              this.props.onNewEvent(temp)
+            }}
+            key={`newEventLine${i}`}
+            style={[{ top: offset * index, width: width }, {
+              // backgroundColor: ,
+              // borderWidth: 2,
+              // borderColor: 'red',
+              // borderRadius: 10,
+              height: offset - 5,
+              position: 'absolute',
+            }]}
+          />
+        ),
+      ];
+    });
+  }
+
   _onEventTapped(event) {
     this.props.eventTapped && this.props.eventTapped(event);
   }
@@ -207,6 +242,7 @@ export default class DayView extends React.PureComponent {
           { width: this.props.width },
         ]}
       >
+        {this.renderNewEventSpace()}
         {this._renderLines()}
         {this._renderEvents()}
         {this._renderRedLine()}
