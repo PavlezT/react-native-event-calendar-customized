@@ -97,6 +97,7 @@ export default class EventCalendar extends React.Component {
         offset={this.offset}
         showHalfHours={showHalfHours}
         showVerticalScrollIndicator={showVerticalScrollIndicator}
+        onNewEvent={this.props.onNewEvent}
       />
     );
   }
