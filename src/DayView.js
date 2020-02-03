@@ -134,12 +134,22 @@ export default class DayView extends React.PureComponent {
   renderNewEventSpace() {
     const { start, end, width, styles } = this.props;
     const offset = this.calendarHeight / (end - start);
+    let hours_pagging = 0;
 
-    return range(start, end + 1).map((i, index) => {
+    if (moment(this.props.date).isBefore(moment(), 'day')) {
+      return null;
+    }
+
+    if (moment(this.props.date).isSame(moment(), 'day')) {
+      hours_pagging = moment().get('hours') - start ;
+      hours_pagging = hours_pagging > 0 ? hours_pagging : 0;
+    }
+
+    return range(start, end + 1 - hours_pagging).map((i, index) => {
       return [
-        <Text
+        i === start ? null : <Text
           key={`newEventLineLabel${i}`}
-          style={[styles.timeLabel, { top: offset * index + (offset/2) - 6, left: 40, color: 'white' }]}
+          style={[styles.timeLabel, { top: offset * (index + hours_pagging) + (offset/2) - 6, left: 40, color: 'white' }]}
         >
           +
         </Text>,
@@ -148,11 +158,11 @@ export default class DayView extends React.PureComponent {
             activeOpacity={0.5}
             onPress={() => {
               const temp = new Date(this.props.date);
-              temp.setHours(index+ start);
+              temp.setHours(index+ start + hours_pagging);
               this.props.onNewEvent(temp)
             }}
             key={`newEventLine${i}`}
-            style={[{ top: offset * index, width: width }, {
+            style={[{ top: offset * (index + hours_pagging), width: width }, {
               // backgroundColor: ,
               // borderWidth: 2,
               // borderColor: 'red',
