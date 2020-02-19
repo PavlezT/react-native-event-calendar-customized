@@ -12,8 +12,8 @@ function buildEvent(column, left, width, dayStart, offset = 100) {
     .minute(0);
   const diffHours = startTime.diff(dayStartTime, 'hours', true);
 
-  column.top = diffHours * offset;
-  column.height = endTime.diff(startTime, 'hours', true) * offset;
+  column.top = diffHours * offset+2;
+  column.height = endTime.diff(startTime, 'hours', true) * offset -4;
   column.width = width;
   column.left = left;
   return column;
