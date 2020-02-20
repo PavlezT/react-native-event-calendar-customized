@@ -106,6 +106,11 @@ export default class DayView extends React.PureComponent {
       } else {
         timeText = !format24h ? `${i - 12} PM` : i;
       }
+      
+      if (this.props.withMinutes && timeText) {
+        timeText +=":00"
+      }
+      
       const { width, styles, showHalfHours } = this.props;
       return [
         <Text
@@ -151,7 +156,7 @@ export default class DayView extends React.PureComponent {
           key={`newEventLineLabel${i}`}
           style={[styles.timeLabel, { top: offset * (index + hours_pagging) + (offset/2) - 6, left: 40, color: 'white' }]}
         >
-          +
+          {this.props.newEventIcon || '+'}
         </Text>,
         i === start ? null : (
           <TouchableOpacity
