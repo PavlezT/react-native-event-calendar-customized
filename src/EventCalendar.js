@@ -76,7 +76,8 @@ export default class EventCalendar extends React.Component {
       end = 24,
       showVerticalScrollIndicator = true,
       showHalfHours = true
-
+      withMinutes = false,
+      newEventIcon,
     } = this.props;
     const date = moment(initDate).add(index - this.props.size, 'days');
     return (
@@ -84,6 +85,8 @@ export default class EventCalendar extends React.Component {
         date={date}
         index={index}
         format24h={format24h}
+        withMinutes={withMinutes}
+        newEventIcon={newEventIcon}
         formatHeader={this.props.formatHeader}
         headerStyle={this.props.headerStyle}
         renderEvent={this.props.renderEvent}
