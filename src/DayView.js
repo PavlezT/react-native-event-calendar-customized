@@ -137,7 +137,10 @@ export default class DayView extends React.PureComponent {
   }
 
   renderNewEventSpace() {
-    const { start, end, width, styles } = this.props;
+    const { start, end, width, styles, newEvents } = this.props;
+    if (!newEvents) {
+      return null;
+    }
     const offset = this.calendarHeight / (end - start);
     let hours_pagging = 0;
 
