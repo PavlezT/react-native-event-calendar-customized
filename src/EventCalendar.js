@@ -101,6 +101,7 @@ export default class EventCalendar extends React.Component {
         showHalfHours={showHalfHours}
         showVerticalScrollIndicator={showVerticalScrollIndicator}
         onNewEvent={this.props.onNewEvent}
+        newEvents={this.props.newEvents}
       />
     );
   }
