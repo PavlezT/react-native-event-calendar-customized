@@ -75,7 +75,7 @@ export default class EventCalendar extends React.Component {
       start = 0,
       end = 24,
       showVerticalScrollIndicator = true,
-      showHalfHours = true
+      showHalfHours = true,
       withMinutes = false,
       newEventIcon,
     } = this.props;
