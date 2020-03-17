@@ -48,7 +48,7 @@ function pack(columns, width, calculatedEvents, dayStart, offset) {
     for (var j = 0; j < col.length; j++) {
       var colSpan = expand(col[j], i, columns);
       var L = (i / colLength) * width;
-      var W = (width * colSpan) / colLength - 10;
+      var W = (width * colSpan) / colLength - 3;
 
       calculatedEvents.push(buildEvent(col[j], L, W, dayStart, offset));
     }
