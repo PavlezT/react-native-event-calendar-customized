@@ -97,7 +97,7 @@ export default class DayView extends React.PureComponent {
 
     return range(start, end + 1).map((i, index) => {
       let timeText;
-      if (i === start) {
+      if (false){//i === start) {
         timeText = ``;
       } else if (i < 12) {
         timeText = !format24h ? `${i} AM` : i;
@@ -121,7 +121,7 @@ export default class DayView extends React.PureComponent {
         >
           {timeText}
         </Text>,
-        i === start ? null : (
+         ( // i === start ? null :
           <View
             key={`line${i}`}
             style={[styles.line, { top: offset * index, width: width - 20 }]}
@@ -157,13 +157,13 @@ export default class DayView extends React.PureComponent {
 
     return range(start, end + 1 - hours_pagging).map((i, index) => {
       return [
-        i === start ? null : <Text
+         <Text 
           key={`newEventLineLabel${i}`}
           style={[styles.timeLabel, { top: offset * (index + hours_pagging) + (offset/2) - 6, left: 40, color: 'white' }]}
         >
           {this.props.newEventIcon || '+'}
         </Text>,
-        i === start ? null : (
+        ( //  i === start ? null :
           <TouchableOpacity
             activeOpacity={0.5}
             onPress={() => {
